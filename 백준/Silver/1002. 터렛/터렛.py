@@ -1,4 +1,4 @@
-import sys, math
+import sys
 """
 이석원은 조규현과 백승환에게 상대편 마린(류재명)의 위치를 계산하라는 명령을 내렸다. 조규현과 백승환은 각각 자신의 터렛 위치에서 현재 적까지의 거리를 계산했다.
 
@@ -25,17 +25,22 @@ $-1$ 출력한다.
 
 case_counts = sys.stdin.readline()
 
-for _ in range(int(case_counts)):
-    x1, y1, r1, x2, y2, r2 = map(int, sys.stdin.readline().split())
-
-    # 1) 거리 계산은 float(실수)로 해야 함
-    distance = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
-
-    if distance == 0 and r1 == r2:          # 동심원 & 반지름이 같은 경우
+for count in range(int(case_counts)):
+    case = sys.stdin.readline().split()
+    x1 = int(case[0])
+    y1 = int(case[1])
+    r1 = int(case[2])
+    x2 = int(case[3])
+    y2 = int(case[4])
+    r2 = int(case[5])
+    dist = (((x1-x2)**2) + ((y1-y2)**2))**(1/2)
+    big_r = max(r1,r2)
+    small_r = min(r1,r2)
+    if dist == 0 and r1==r2:
         print(-1)
-    elif abs(r1 - r2) == distance or (r1 + r2) == distance:  # 내접 or 외접
+    elif dist == big_r + small_r or dist == big_r - small_r:
         print(1)
-    elif abs(r1 - r2) < distance < (r1 + r2): # 두 점에서 만나는 경우
+    elif (big_r - small_r) < dist < (big_r + small_r):
         print(2)
-    else:                                    # 그 외
+    else:
         print(0)
